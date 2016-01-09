@@ -1,0 +1,239 @@
+#########################
+#        General        #
+#########################
+
+# Use Alt not the Win key
+# For win key, use Mod4
+set $mod Mod1
+
+# Font
+font pango: DejaVu Sans Mono 10, FontAwesome, Noto Sans UI 10
+
+floating_modifier $mod
+
+bindsym $mod+Return exec i3-sensible-terminal
+
+bindsym $mod+Shift+q kill
+
+# Rofi
+bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 400 -opacity "85" -bw 0 -bc "#1b2b34" -bg "#1b2b34" -fg "#d3d3d3" -hlbg "#1b2b34" -hlfg "#ffcc80" -font "Noto Sans 18"
+
+# Focusy focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Move focused windows
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Split in horizontal direction
+bindsym $mod+o split h
+
+# Split in vertical orientation
+bindsym $mod+v split v
+
+# Fullscreen
+bindsym $mod+f fullscreen toggle
+
+# Container layout
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# Focus the parent container
+bindsym $mod+a focus parent
+
+# Focus the child container
+bindsym $mod+z focus child
+
+# Lock screen
+bindsym $mod+shift+x exec ~/.config/lock.sh ~/.config/lock.png
+
+# Reload config
+bindsym $mod+Shift+c reload
+
+# Restart i3
+bindsym $mod+Shift+r restart
+
+# Power
+bindsym $mod+Shift+e exec ~/.config/power
+
+# Multimedia and volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+
+####################
+#     Colors       #
+####################
+
+set $inactive-bg-color   #2f343f
+set $text-color          #f3f4f5
+set $inactive-text-color #676E7D
+set $urgent-bg-color     #E53935
+set $transparent         #00000000
+
+####################
+#       Gaps       #
+####################
+# Remove the titlebar in order to make gaps work
+for_window [class="^.*"] border pixel 0
+
+gaps inner 24
+gaps outer 0
+
+# Enable smart gaps
+# smart_gaps on
+
+# Configure gaps through keyboard
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+
+####################
+#    Workspace     #
+####################
+
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9
+set $ws10 10
+
+# Switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# Resize window
+mode "resize" {
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+
+    bindsym Lefj resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+
+######################
+#       Bar          #
+######################
+
+bar {
+	status_command i3blocks -c ~/.config/i3blocks.conf 
+	i3bar_command i3bar -t
+  height 25 
+	position top
+	colors {
+		background $transparent
+		statusline #FFFFFF
+		separator  #FFFFFF
+		#                  border             background         text
+		focused_workspace  $transparent       $transparent       $text-color
+		inactive_workspace $transparent       $transparent       $inactive-text-color
+		urgent_workspace   $transparent       $transparent       $urgent-bg-color
+	}
+}
+
+######################
+#       Startup      #
+######################
+
+# Background / Wallpaper
+exec_always --no-startup-id feh --bg-fill ~/.config/wall.jpg
+
+# Keys
+exec_always xmodmap -e "clear lock"
+exec_always xmodmap -e "keysym Caps_Lock = Escape" 
+
+# Compton
+exec_always compton -b
+
+# NetworkManager
+exec no-startup-id nm-applet
+
+# MPD
+exec mpd ~/.config/mpd/mpd.conf
